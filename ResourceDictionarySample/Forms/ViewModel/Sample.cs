@@ -73,7 +73,7 @@ namespace ResourceDictionarySample.Forms.ViewModel
                     Dictionary["CodeBehind"] = InputText;
                     CallPropertyChanged(nameof(TextProperty));
 
-                    using (var writer = new StreamWriter("Forms/Languages/ja-JP/Sample.xaml"))
+                    using (var writer = new StreamWriter(Dictionary.Source.ToString()))
                     {
                         XamlWriter.Save(Dictionary, writer);
                     }

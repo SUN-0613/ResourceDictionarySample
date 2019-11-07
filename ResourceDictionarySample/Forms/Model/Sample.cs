@@ -10,18 +10,18 @@ namespace ResourceDictionarySample.Forms.Model
         public string GetLanguageSource(Languages language)
         {
 
-            // Behaviorクラスからみたファイルパスを設定
+            // .exeからみたファイルパスを設定
             switch (language)
             {
 
                 case Languages.Japanese:
-                    return @"/ResourceDictionarySample;component/Forms/Languages/ja-JP/Sample.xaml";
+                    return @"Forms/Languages/ja-JP/Sample.xaml";
 
                 case Languages.English:
-                    return @"/ResourceDictionarySample;component/Forms/Languages/en-US/Sample.xaml";
+                    return @"Forms/Languages/en-US/Sample.xaml";
 
                 default:
-                    return @"/ResourceDictionarySample;component/Forms/Languages/Default/Sample.xaml";
+                    return @"Forms/Languages/Default/Sample.xaml";
 
             }
 
