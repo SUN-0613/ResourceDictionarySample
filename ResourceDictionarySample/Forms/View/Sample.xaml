@@ -7,37 +7,63 @@
         xmlns:in="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:b="clr-namespace:ResourceDictionarySample.Behaviors"
         xmlns:vm="clr-namespace:ResourceDictionarySample.Forms.ViewModel"
+        xmlns:k="clr-namespace:ResourceDictionarySample.Kind"
         mc:Ignorable="d"
         Title="Sample" Height="450" Width="800">
     <i:Interaction.Triggers>
         <in:PropertyChangedTrigger Binding="{Binding LanguageProperty, Mode=OneWay}" >
-            <b:ResourceDictionaryTriggerAction />
+            <b:ResourceDictionaryTriggerAction Dictionary="{Binding Dictionary, Mode=OneWayToSource}" />
         </in:PropertyChangedTrigger>
     </i:Interaction.Triggers>
     <Window.DataContext>
         <vm:Sample />
     </Window.DataContext>
-    <!--
     <Window.Resources>
         <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Languages/Default/Sample.xaml" />
+                <ResourceDictionary Source="/ResourceDictionarySample;component/Forms/Languages/Default/Sample.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <ObjectDataProvider x:Key="languages" MethodName="GetValues" ObjectType="{x:Type k:Languages}" >
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="k:Languages" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
         </ResourceDictionary>
     </Window.Resources>
-    -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" TextAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource Message}" />
-        <Button Grid.Row="1" Content="変更" >
-            <Button.InputBindings>
-                <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeCommand}" />
-            </Button.InputBindings>
-        </Button>
-        <TextBlock Grid.Row="2" TextAlignment="Center" VerticalAlignment="Center" Text="{Binding LanguageProperty}" />
+        <ComboBox Grid.Row="0" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource languages}}" SelectedValue="{Binding SelectedLanguage}" >
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding }" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource Message}" />
+        <TextBlock Grid.Row="2" TextAlignment="Center" VerticalAlignment="Center" Text="{Binding TextProperty}" />
+
+        <Grid Grid.Row="3" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Update" VerticalAlignment="Center" TextAlignment="Right" />
+            <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Grid.Column="2" Content="Update" >
+                <Button.InputBindings>
+                    <MouseBinding MouseAction="LeftClick" Command="{Binding UpdateCommand}" />
+                </Button.InputBindings>
+            </Button>
+        </Grid>
+        
     </Grid>
 </Window>
